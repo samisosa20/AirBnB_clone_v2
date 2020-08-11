@@ -18,6 +18,7 @@ if storage_type == "db":
 else:
     Base = object
 
+
 class BaseModel:
     '''
         Base class for other classes to be used for the duration.

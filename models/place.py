@@ -5,6 +5,7 @@ from os import getenv
 from models.review import Review
 from models.amenity import Amenity
 
+
 class Place(BaseModel, Base):
     """This is the class for Place
     Attributes:
