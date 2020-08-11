@@ -8,7 +8,10 @@ from datetime import datetime
 import models
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
+from os import getenv
 
+
+storage_type = getenv("HBNB_TYPE_STORAGE")
 Base = declarative_base()
 
 
@@ -16,9 +19,12 @@ class BaseModel:
     '''
         Base class for other classes to be used for the duration.
     '''
-    id = Column(String(60), primary_key=True, nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow(), nullable=False)
-    updated_at = Column(DateTime, default=datetime.utcnow(), nullable=False)
+    if storage_type == 'db':
+        id = Column(String(60), primary_key=True, nullable=False)
+        created_at = Column(
+            DateTime, default=datetime.utcnow(), nullable=False)
+        updated_at = Column(
+            DateTime, default=datetime.utcnow(), nullable=False)
 
     def __init__(self, *args, **kwargs):
         '''
@@ -79,11 +85,16 @@ class BaseModel:
         '''
         cp_dct = dict(self.__dict__)
         cp_dct['__class__'] = self.__class__.__name__
-        cp_dct['updated_at'] = self.updated_at.strftime("%Y-%m-%dT%H:%M:%S.%f")
-        cp_dct['created_at'] = self.created_at.strftime("%Y-%m-%dT%H:%M:%S.%f")
+        if 'updated_at' in cp_dct:
+            cp_dct['updated_at'] = self.updated_at.strftime(
+                "%Y-%m-%dT%H:%M:%S.%f")
+        if 'created_at' in cp_dct:
+            cp_dct['created_at'] = self.created_at.strftime(
+                "%Y-%m-%dT%H:%M:%S.%f")
         if '_sa_instance_state' in cp_dct:
-            del cp_dct['_sa_instance_state']
-        return cp_dct
+            cp_dct.pop('_sa_instance_state', None)
+        return (cp_dct)
 
     def delete(self):
+        """From delete data"""
         models.storage.delete(self)

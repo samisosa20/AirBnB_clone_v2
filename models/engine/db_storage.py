@@ -44,11 +44,12 @@ class DBStorage:
         """
         print("$$$$$$", cls)
         obj = {}
-        clss = [value for key, value in models.classes.items()]
-        if cls:
-            if isinstance(cls, str):
-                cls = models.classes[cls]
-            clss = [cls]
+        clss = []
+        if cls is None:
+            clss = [State, User, Place, Amenity, Review, Place]
+        else:
+            clss = models.classes[cls]
+
         for one_class in clss:
             for value in self.__session.query(one_class).all():
                 key = str(value.__class__.__name__) + "." + str(value.id)
@@ -74,7 +75,7 @@ class DBStorage:
         session_factory = sessionmaker(
             bind=self.__engine, expire_on_commit=False)
         self.__session = scoped_session(session_factory)
-        
+
     def close(self):
         """removes session"""
         if self.__session:
