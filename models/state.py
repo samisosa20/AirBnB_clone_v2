@@ -24,6 +24,7 @@ class State(BaseModel, Base):
         name = ""
 
     if storage_type != 'db':
+
         @property
         def cities(self):
             """
