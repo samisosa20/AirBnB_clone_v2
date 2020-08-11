@@ -4,6 +4,9 @@ from models.base_model import BaseModel, Base
 from os import getenv
 from models.review import Review
 from models.amenity import Amenity
+import sqlalchemy
+from sqlalchemy import Column, String, Integer, Float, ForeignKey, Table
+from sqlalchemy.orm import relationship
 
 
 class Place(BaseModel, Base):
