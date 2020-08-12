@@ -15,15 +15,14 @@ class State(BaseModel, Base):
     '''
         Implementation for the State.
     '''
+    __tablename__ = 'states'
     if storage_type == 'db':
-        __tablename__ = 'states'
         name = Column(String(128), nullable=False)
         cities = relationship("City", backref="state",
-                              cascade="all, delete-orphan")
+                              cascade="delete")
     else:
         name = ""
 
-    if storage_type != 'db':
         @property
         def cities(self):
             """
