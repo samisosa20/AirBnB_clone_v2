@@ -3,8 +3,7 @@ from models.base_model import BaseModel, Base
 from os import getenv
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
-from models.user import User
-from models.place import Place
+
 
 
 class Review(BaseModel, Base):
