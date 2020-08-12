@@ -14,7 +14,6 @@ import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-classes = {"City": City, "State": State, "User": User}
 
 
 class DBStorage:
@@ -49,7 +48,7 @@ class DBStorage:
                     dic[ins.__class__.__name__ + '.' + ins.id] = ins
 
         else:
-            holder_list = [State, City, User]
+            holder_list = [State, City, User, Place]
             for classes in holder_list:
                 for ins in self.__session.query(classes).all():
                     dic[ins.__class__.__name__ + '.' + ins.id] = ins
