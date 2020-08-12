@@ -7,7 +7,7 @@ from os import getenv
 
 storage_type = getenv("HBNB_TYPE_STORAGE")
 
- 
+
 class City(BaseModel, Base):
     """This is the class for State
     Attributes:
@@ -18,7 +18,8 @@ class City(BaseModel, Base):
     if storage_type == "db":
         state_id = Column(String(60), ForeignKey('states.id'), nullable=False)
         name = Column(String(128), nullable=False)
-        places = relationship("Place", backref="cities")
+        places = relationship(
+            "Place", cascade="all, delete-orphan", backref="cities")
     else:
         state_id = ""
         name = ""
