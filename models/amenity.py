@@ -1,16 +1,24 @@
 #!/usr/bin/python3
-"""
-    Amenity (models/amenity.py):
-
-    Public class attributes:
-        name: string - empty string
-"""
-
-
-from models.base_model import BaseModel
+"""This is the state class"""
+import models
+from models.base_model import BaseModel, Base
+from os import getenv
+import sqlalchemy
+from sqlalchemy import Column, String
+from sqlalchemy.orm import relationship
 
 
-class Amenity(BaseModel):
-    """ state class inherits from BaseModel """
+class Amenity(BaseModel, Base):
+    """This is the class for State
+    Attributes:
+        name: input name
+    """
+    if getenv("HBNB_TYPE_STORAGE") == 'db':
+        __tablename__ = 'amenities'
+        name = Column(String(128), nullable=False)
+    else:
+        name = ""
 
-    name = ""
+    def __init__(self, *args, **kwargs):
+        """initializes Amenity"""
+        super().__init__(*args, **kwargs)
