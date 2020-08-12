@@ -1,104 +1,63 @@
 #!/usr/bin/python3
-"""
-Base class to models
-"""
+"""Base Model"""
+
 
 import uuid
 from datetime import datetime
-import models
-from sqlalchemy import Column, String, DateTime
-from sqlalchemy.ext.declarative import declarative_base
-from os import getenv
+import json
+from models.__init__ import storage
 
 
-storage_type = getenv("HBNB_TYPE_STORAGE")
-
-if storage_type == "db":
-    Base = declarative_base()
-else:
-    Base = object
-
-
-class BaseModel:
-    '''
-        Base class for other classes to be used for the duration.
-    '''
-    if storage_type == 'db':
-        id = Column(String(60), primary_key=True, nullable=False)
-        created_at = Column(
-            DateTime, default=datetime.utcnow(), nullable=False)
-        updated_at = Column(
-            DateTime, default=datetime.utcnow(), nullable=False)
-
+class BaseModel():
+    """Class BaseModel creation"""
     def __init__(self, *args, **kwargs):
-        '''
-            Initialize public instance attributes.
-        '''
-        if len(kwargs) == 0:
-            # if no dictionary of attributes is passed in
-            self.id = str(uuid.uuid4())
-            self.created_at = self.updated_at = datetime.now()
+        """Task 3 - Initialization of instances"""
+        if kwargs:
+            for key, value in kwargs.items():
+                if key != "__class__":
+                    if key == "created_at" or key == "updated_at":
+                        setattr(self, key, datetime.strptime(value,
+                                "%Y-%m-%dT%H:%M:%S.%f"))
+                    else:
+                        setattr(self, key, value)
         else:
-            # assign a dictionary of attributes to instance
-
-            # preserve existing created_at time
-            if kwargs.get('created_at'):
-                kwargs["created_at"] = datetime.strptime(
-                    kwargs["created_at"], "%Y-%m-%dT%H:%M:%S.%f")
-            else:
-                self.created_at = datetime.utcnow()  # assign current time
-            if kwargs.get('updated_at'):
-                # preserve existing updated_at time
-                kwargs["updated_at"] = datetime.strptime(
-                    kwargs["updated_at"], "%Y-%m-%dT%H:%M:%S.%f")
-            else:
-                self.updated_at = datetime.utcnow()
-
-            if not kwargs.get('id'):
-                self.id = str(uuid.uuid4())
-
-            for key, val in kwargs.items():
-                if "__class__" not in key:
-                    setattr(self, key, val)
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
+            storage.new(self)
 
     def __str__(self):
-        '''
-            Return string representation of BaseModel class
-        '''
-        return ("[{}] ({}) {}".format(self.__class__.__name__,
-                                      self.id, self.__dict__))
+        """Task 3 - Method to print class name,
+        self.id and self.__dict__"""
+        new_dic = {}
 
-    def __repr__(self):
-        '''
-            Return string representation of BaseModel class
-        '''
-        return ("[{}] ({}) {}".format(self.__class__.__name__,
-                                      self.id, self.__dict__))
+        cl_name = "[" + self.__class__.__name__ + "]"
+        id = " (" + self.id + ")"
+        dictio = " " + str(self.__dict__)
+        return cl_name + id + dictio
 
     def save(self):
-        '''
-            Update the updated_at attribute with new.
-        '''
+        """Task 3 - Method to update updated_at"""
         self.updated_at = datetime.now()
-        models.storage.new(self)
-        models.storage.save()
+        storage.new(self)
+        storage.save()
 
     def to_dict(self):
-        '''
-            Return dictionary representation of BaseModel class.
-        '''
-        cp_dct = dict(self.__dict__)
-        cp_dct['__class__'] = self.__class__.__name__
-        if 'updated_at' in cp_dct:
-            cp_dct['updated_at'] = self.updated_at.strftime(
-                "%Y-%m-%dT%H:%M:%S.%f")
-        if 'created_at' in cp_dct:
-            cp_dct['created_at'] = self.created_at.strftime(
-                "%Y-%m-%dT%H:%M:%S.%f")
-        if '_sa_instance_state' in cp_dct:
-            cp_dct.pop('_sa_instance_state', None)
-        return (cp_dct)
+        """Task 3 - Method to return a dict
+        with all keys/values"""
+        new_dic = {}
+        members = [attr for attr in dir(self)
+                   if not callable(getattr(self, attr)) and not
+                   attr.startswith("__")]
+        new_dic["__class__"] = self.__class__.__name__
 
-    def delete(self):
-        """From delete data"""
-        models.storage.delete(self)
+        for key in self.__dict__:
+            if key == "created_at" or key == "updated_at":
+                new_dic[key] = self.__dict__[key].isoformat()
+            else:
+                new_dic[key] = self.__dict__[key]
+
+        for key in self.__class__.__dict__:
+            if key in members:
+                    new_dic[key] = self.__class__.__dict__[key]
+        return new_dic

@@ -1,38 +1,16 @@
 #!/usr/bin/python3
-"""This is the state class"""
-from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String
-from sqlalchemy.orm import relationship
-from models.city import City
-from os import getenv
-import models
+"""
+    State (models/state.py):
+
+    Public class attributes:
+        name: string - empty string
+"""
 
 
-storage_type = getenv("HBNB_TYPE_STORAGE")
+from models.base_model import BaseModel
 
 
-class State(BaseModel, Base):
-    '''
-        Implementation for the State.
-    '''
-    if storage_type == 'db':
-        __tablename__ = 'states'
-        name = Column(String(128), nullable=False)
-        cities = relationship("City", backref="state",
-                              cascade="all, delete-orphan")
-    else:
-        name = ""
+class State(BaseModel):
+    """ state class inherits from BaseModel """
 
-    if storage_type != 'db':
-        @property
-        def cities(self):
-            """
-            get list of City instances with state_id
-            equals to the current State.id
-            """
-            list_cities = []
-            all_cities = models.storage.all(City)
-            for key, city_obj in all_cities.items():
-                if city_obj.state_id == self.id:
-                    list_cities.append(city_obj)
-            return list_cities
+    name = ""

@@ -1,29 +1,18 @@
 #!/usr/bin/python3
-"""This is the state class"""
-from models.base_model import BaseModel, Base
-from sqlalchemy import Column, Integer, String, ForeignKey
-from sqlalchemy.orm import relationship
-from os import getenv
-from models.place import Place
+"""
+    City (models/city.py):
 
-storage_type = getenv("HBNB_TYPE_STORAGE")
+    Public class attributes:
+        state_id: string - empty string: it will be the State.id
+        name: string - empty string
+"""
 
 
-class City(BaseModel, Base):
-    """This is the class for State
-    Attributes:
-        state_id: The state id
-        name: input name
-    """
-    if storage_type == "db":
-        __tablename__ = 'cities'
-        state_id = Column(String(60), ForeignKey('states.id'), nullable=False)
-        name = Column(String(128), nullable=False)
-        places = relationship("Place", backref="cities")
-    else:
-        state_id = ""
-        name = ""
+from models.base_model import BaseModel
 
-    def __init__(self, *args, **kwargs):
-        """initializes city"""
-        super().__init__(*args, **kwargs)
+
+class City(BaseModel):
+    """ state class inherits from BaseModel """
+
+    state_id = ""
+    name = ""
