@@ -29,3 +29,14 @@ class User(BaseModel, Base):
         last_name = Column(String(128), nullable=True)
         places = relationship(
             'Place', cascade="delete", backref="users")
+        reviews = relationship(
+            "Review", backref="user")
+    else:
+        email = ""
+        password = ""
+        first_name = ""
+        last_name = ""
+
+    def __init__(self, *args, **kwargs):
+        """initializes user"""
+        super().__init__(*args, **kwargs)
