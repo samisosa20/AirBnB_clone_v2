@@ -14,8 +14,7 @@ import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-classes = {"Amenity": Amenity, "City": City,
-           "Place": Place, "Review": Review, "State": State, "User": User}
+classes = {"City": City, "State": State, "User": User}
 
 
 class DBStorage:
@@ -40,14 +39,21 @@ class DBStorage:
 
     def all(self, cls=None):
         """query on the current database session"""
-        new_dict = {}
-        for clss in classes:
-            if cls is None or cls is classes[clss] or cls is clss:
-                objs = self.__session.query(classes[clss]).all()
-                for obj in objs:
-                    key = obj.__class__.__name__ + '.' + obj.id
-                    new_dict[key] = obj
-        return (new_dict)
+        dic = {}
+        if cls:
+            if isinstance(cls, str):
+                for ins in self.__session.query(eval(cls)).all():
+                    dic[ins.__class__.__name__ + '.' + ins.id] = ins
+            else:
+                for ins in self.__session.query(cls).all():
+                    dic[ins.__class__.__name__ + '.' + ins.id] = ins
+
+        else:
+            holder_list = [State, City]
+            for classes in holder_list:
+                for ins in self.__session.query(classes).all():
+                    dic[ins.__class__.__name__ + '.' + ins.id] = ins
+        return dic
 
     def new(self, obj):
         """add the object to the current database session"""
