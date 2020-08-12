@@ -49,7 +49,7 @@ class DBStorage:
                     dic[ins.__class__.__name__ + '.' + ins.id] = ins
 
         else:
-            holder_list = [State, City]
+            holder_list = [State, City, User]
             for classes in holder_list:
                 for ins in self.__session.query(classes).all():
                     dic[ins.__class__.__name__ + '.' + ins.id] = ins
@@ -72,8 +72,7 @@ class DBStorage:
         """reloads data from the database"""
         Base.metadata.create_all(self.__engine)
         sess_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
-        Session = scoped_session(sess_factory)
-        self.__session = Session
+        self.__session = scoped_session(sess_factory)
 
     def close(self):
         """call remove() method on the private session attribute"""
