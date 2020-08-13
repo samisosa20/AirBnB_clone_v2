@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """This is the state class"""
-from models.base_model import BaseModel, Base
+from models.base_model import BaseModel, Base, baseDos
 from sqlalchemy import Column, Integer, String, ForeignKey, Float, Table
 from sqlalchemy.orm import relationship
 from os import getenv
@@ -8,7 +8,7 @@ import models
 
 
 place_amenity = Table(
-    'place_amenity', Base.metadata,
+    'place_amenity', baseDos.metadata,
     Column(
         'place_id', String(60), ForeignKey('places.id'),
         nullable=False, primary_key=True
