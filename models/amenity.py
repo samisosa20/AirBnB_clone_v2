@@ -1,9 +1,10 @@
 #!/usr/bin/python3
 """ State Module for HBNB project """
-import models
 from models.base_model import BaseModel, Base
 from os import getenv
 from sqlalchemy import Column, String
+from models.place import Place
+from sqlalchemy.orm import relationship
 
 
 class Amenity(BaseModel, Base):
@@ -11,12 +12,9 @@ class Amenity(BaseModel, Base):
     Attributes:
         name: input name
     """
+    __tablename__ = 'amenities'
     if getenv("HBNB_TYPE_STORAGE") == 'db':
-        __tablename__ = 'amenities'
         name = Column(String(128), nullable=False)
+        place_amenities = relationship('Place', secondary=Place.place_amenity)
     else:
         name = ""
-
-    def __init__(self, *args, **kwargs):
-        """initializes Amenity"""
-        super().__init__(*args, **kwargs)

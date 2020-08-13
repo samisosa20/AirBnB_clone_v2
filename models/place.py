@@ -1,24 +1,12 @@
 #!/usr/bin/python3
 """This is the state class"""
-from models.base_model import BaseModel, Base, baseDos
+from models.base_model import BaseModel, Base
 from sqlalchemy import Column, Integer, String, ForeignKey, Float, Table
 from sqlalchemy.orm import relationship
 from os import getenv
 import models
 
 
-place_amenity = Table(
-    'place_amenity', baseDos.metadata,
-    Column(
-        'place_id', String(60), ForeignKey('places.id'),
-        nullable=False, primary_key=True
-    ),
-    Column(
-        'amenity_id', String(60), ForeignKey('amenities.id'),
-        nullable=False, primary_key=True
-    )
-
-)
 
 
 class Place(BaseModel, Base):
@@ -49,6 +37,18 @@ class Place(BaseModel, Base):
         latitude = Column(Float, nullable=True)
         longitude = Column(Float, nullable=True)
         reviews = relationship("Review", backref="place")
+        place_amenity = Table(
+            'place_amenity', Base.metadata,
+            Column(
+                'place_id', String(60), ForeignKey('places.id'),
+                nullable=False, primary_key=True
+            ),
+            Column(
+                'amenity_id', String(60), ForeignKey('amenities.id'),
+                nullable=False, primary_key=True
+            )
+
+        )
         amenities = relationship("Amenity", secondary="place_amenity",
                                  back_populates="place_amenities",
                                  viewonly=False)

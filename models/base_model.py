@@ -13,6 +13,7 @@ from os import getenv
 
 storage_type = getenv("HBNB_TYPE_STORAGE")
 
+
 if storage_type == "db":
     Base = declarative_base()
 else:
