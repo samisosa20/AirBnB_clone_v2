@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""All the test for the user model are implemented here.
+""" All the test for the user model are implemented here.
 """
 
 import unittest
@@ -8,7 +8,7 @@ from models.city import City
 
 
 class TestUser(unittest.TestCase):
-    """Testing User class
+    """ Testing User class
     """
 
     @classmethod
