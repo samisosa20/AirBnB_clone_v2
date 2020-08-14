@@ -1,33 +1,31 @@
 #!/usr/bin/python3
-"""
-Unitests to amenity.py
+"""All the test for the amenity model are implemented here.
 """
 
 import unittest
-import models
-from models.amenity import Amenity
 from models.base_model import BaseModel
+from models.amenity import Amenity
 
 
-class amenity_tests1(unittest.TestCase):
-    """Assert tests"""
+class TestAmenity(unittest.TestCase):
+    """Testing Amenity class
+    """
 
-    def test_subclass(self):
-        """amenity is a subclass"""
-        inst = Amenity()
-        self.assertIsInstance(inst, BaseModel)
-        self.assertTrue(hasattr(inst, "id"))
-        self.assertTrue(hasattr(inst, "created_at"))
-        self.assertTrue(hasattr(inst, "updated_at"))
+    @classmethod
+    def setUpClass(cls):
+        """setup class"""
+        cls.new_amenity = Amenity()
+        cls.new_amenity.name = "amenity"
 
-    def test_output(self):
-        """show if the output works"""
-        inst = Amenity()
-        out = "[Amenity] ({}) {}".format(inst.id, inst.__dict__)
-        self.assertEqual(out, str(inst))
+    def test_Amenity_inheritence(self):
+        """tests that the Amenity class"""
+        self.assertIsInstance(self.new_amenity, BaseModel)
 
-    def test_name(self):
-        """test name exists in amenity instance"""
-        inst = Amenity()
-        self.assertTrue(hasattr(inst, "name"))
-        self.assertEqual(inst.name, "")
+    def test_Amenity_attributes(self):
+        """Test that Amenity class"""
+        self.assertTrue("name" in self.new_amenity.__dir__())
+
+    def test_Amenity_attribute_type(self):
+        """Test that Amenity class had """
+        name_value = getattr(self.new_amenity, "name")
+        self.assertIsInstance(name_value, str)

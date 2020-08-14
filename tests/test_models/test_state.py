@@ -1,33 +1,26 @@
 #!/usr/bin/python3
-"""
-Unitests to state.py
-"""
-
+"""Contain tests for the state module."""
 import unittest
-import models
-from models.state import State
 from models.base_model import BaseModel
+from models.state import State
 
 
-class state_tests1(unittest.TestCase):
-    """Assert tests"""
+class TestState(unittest.TestCase):
+    """Test the State class."""
 
-    def test_subclass(self):
-        """State is a subclass"""
-        inst = State()
-        self.assertIsInstance(inst, BaseModel)
-        self.assertTrue(hasattr(inst, "id"))
-        self.assertTrue(hasattr(inst, "created_at"))
-        self.assertTrue(hasattr(inst, "updated_at"))
+    @classmethod
+    def setUpClass(cls):
+        cls.new_state = State()
+        cls.new_state.name = "California"
 
-    def test_output(self):
-        """show if the output works"""
-        inst = State()
-        out = "[State] ({}) {}".format(inst.id, inst.__dict__)
-        self.assertEqual(out, str(inst))
+    def test_State_inheritence(self):
+        """Test that State class inherits"""
+        self.assertIsInstance(self.new_state, BaseModel)
 
-    def test_name(self):
-        """test parameters exists in State instance"""
-        inst = State()
-        self.assertTrue(hasattr(inst, "name"))
-        self.assertEqual(inst.name, "")
+    def test_State_attributes(self):
+        """Test that State class"""
+        self.assertTrue("name" in self.new_state.__dir__())
+
+    def test_State_attributes_type(self):
+        """Test that State class"""
+        self.assertIsInstance(self.new_state.name, str)

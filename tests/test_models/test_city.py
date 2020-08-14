@@ -1,36 +1,37 @@
 #!/usr/bin/python3
+"""All the test for the user model are implemented here.
 """
-unittest to city.py
-"""
-
 
 import unittest
-import models
-from models.city import City
 from models.base_model import BaseModel
+from models.city import City
 
 
-class city_test1(unittest.TestCase):
-    """Assert cases to City"""
+class TestUser(unittest.TestCase):
+    """Testing User class
+    """
 
-    def test_subclass(self):
-        """City is a subclass"""
-        inst = City()
-        self.assertIsInstance(inst, BaseModel)
-        self.assertTrue(hasattr(inst, "id"))
-        self.assertTrue(hasattr(inst, "created_at"))
-        self.assertTrue(hasattr(inst, "updated_at"))
+    @classmethod
+    def setUpClass(cls):
+        """setup instances for each test"""
+        cls.new_city = City()
+        cls.new_city.state_id = '209420834'
+        cls.new_city.name = "SF"
 
-    def test_output(self):
-        """show if the output works"""
-        inst = City()
-        out = "[City] ({}) {}".format(inst.id, inst.__dict__)
-        self.assertEqual(out, str(inst))
+    def test_City_inheritance(self):
+        """tests that the City class"""
+        self.assertIsInstance(self.new_city, BaseModel)
 
-    def test_name(self):
-        """test name exists in amenity instance"""
-        inst = City()
-        self.assertTrue(hasattr(inst, "name"))
-        self.assertEqual(inst.name, "")
-        self.assertTrue(hasattr(inst, "state_id"))
-        self.assertEqual(inst.state_id, "")
+    def test_User_attributes(self):
+        self.assertTrue("state_id" in self.new_city.__dir__())
+        self.assertTrue("name" in self.new_city.__dir__())
+
+    def test_type_name(self):
+        """Test the type of name"""
+        name = getattr(new_city, "name")
+        self.assertIsInstance(name, str)
+
+    def test_type_name(self):
+        """Test the type of name"""
+        name = getattr(self.new_city, "state_id")
+        self.assertIsInstance(name, str)
