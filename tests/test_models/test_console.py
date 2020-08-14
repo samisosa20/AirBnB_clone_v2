@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-"""
-tests for console
+""" tests for console
 """
 import unittest
