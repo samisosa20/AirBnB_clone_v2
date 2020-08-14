@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="https://latorredev.com/assets/Img/Certifications/Holberton.png" alt="HolbertonBnB logo">
-</p>
-
 # HOLBERTON BNB
 
 _This project contains a console that can interpret various commands that will be explained here._
