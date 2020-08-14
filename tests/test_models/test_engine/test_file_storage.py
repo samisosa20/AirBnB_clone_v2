@@ -1,7 +1,7 @@
 #!/usr/bin/python3
+"""Test to file_storage
 """
-Test to file_storage
-"""
+
 import pep8
 import os
 import models
@@ -56,9 +56,7 @@ class TestFileStorage(unittest.TestCase):
         self.assertIs(obj, storage._FileStorage__objects)
 
     def test_reload_filestorage(self):
-        """
-        tests reload
-        """
+        """tests reload"""
         self.storage.save()
         Root = os.path.dirname(os.path.abspath("console.py"))
         path = os.path.join(Root, "file.json")
