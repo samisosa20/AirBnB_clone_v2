@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+""" Test save and reload base model
+"""
 from models import storage
 from models.base_model import BaseModel
 
