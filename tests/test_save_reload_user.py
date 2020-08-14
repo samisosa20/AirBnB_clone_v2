@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+""" Test save and reload user
+"""
 from models import storage
 from models.base_model import BaseModel
 from models.user import User
