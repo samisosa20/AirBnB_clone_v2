@@ -18,6 +18,7 @@ storage_type = getenv("HBNB_TYPE_STORAGE")
 classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
 
+
 class HBNBCommand(cmd.Cmd):
     """this class is entry point of the command interpreter
     """
@@ -72,12 +73,12 @@ class HBNBCommand(cmd.Cmd):
                     try:
                         if type(eval(v)).__name__ == 'int':
                             v = eval(v)
-                    except:
+                    except Exception:
                         continue
                     try:
                         if type(eval(str(v))).__name__ == 'float':
                             v = eval(v)
-                    except:
+                    except Exception:
                         continue
                     setattr(new_instance, k, v)
             new_instance.save()
