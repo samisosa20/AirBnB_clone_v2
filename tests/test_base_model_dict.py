@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+""" test of base model dict
+"""
 from models.base_model import BaseModel
 
 my_model = BaseModel()
