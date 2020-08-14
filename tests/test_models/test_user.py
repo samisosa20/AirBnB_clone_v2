@@ -25,7 +25,7 @@ class TestUser(unittest.TestCase):
     def test_User_inheritance(self):
         """tests that the User class Inherits from BaseModel
         """
-        se.assertIsInstance(self.new_user, BaseModel)
+        self.assertIsInstance(self.new_user, BaseModel)
 
     def test_User_attributes(self):
         """Test the user attributes exist"""
@@ -36,16 +36,16 @@ class TestUser(unittest.TestCase):
 
     def test_type_email(self):
         """Test the type of name"""
-        se.assertIsInstance(self.new_user.email, str)
+        self.assertIsInstance(self.new_user.email, str)
 
     def test_type_first_name(self):
         """Test the type of name"""
-        se.assertIsInstance(self.new_user.first_name, str)
+        self.assertIsInstance(self.new_user.first_name, str)
 
     def test_type_last_name(self):
         """Test the type of last_name"""
-        se.assertIsInstance(self.new_user.last_name, str)
+        self.assertIsInstance(self.new_user.last_name, str)
 
     def test_type_password(self):
         """Test the type of password"""
-        se.assertIsInstance(self.new_user.password, str)
+        self.assertIsInstance(self.new_user.password, str)
