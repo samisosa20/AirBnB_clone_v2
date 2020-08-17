@@ -3,6 +3,9 @@ from fabric.api import local, put, run, env
 from datetime import datetime
 import os
 
+env.hosts = ['1449-web-01', '1449-web-02']
+env.user = 'ubuntu'
+
 
 def do_pack():
     """enerates a .tgz archive from the contents of the web_static folder
