@@ -6,16 +6,8 @@ exec { 'exec_0':
 	returns => [0,1]
 }
 
-file_line { 'add-line':
-    ensure   => 'present',
-    after    => 'location / {',
-    multiple => true,
-    path     => '/etc/nginx/sites-available/default',
-    line     => '\tlocation /hbnb_static/ {\n\t\talias /data/web_static/current/;\n\t}\n',
-}
-
 package { 'nginx':
-	require => File_line['add-line'],
+	require => Exec['exec_0'],
 	ensure => installed,
 	provider => 'apt',
 	name => 'nginx'
@@ -36,10 +28,10 @@ exec { 'exec_2':
 
 file { 'index.html':
   ensure  => file,
-  path    => '/data/web_static/releases/test/',
+  path    => '/data/web_static/releases/test/index.html',
   mode    => '0744',
-  owner   => 'ubuntu',
-  group   => 'ubuntu',
+  owner   => 'root',
+  group   => 'root',
   content => '<html>
   <head>
   </head>
@@ -63,10 +55,15 @@ exec { 'exec_4':
 	returns => [0,1]
 }
 
-
-
 exec { 'exec_5':
     require => Exec['exec_4'],
+	command => "sed -i '29a \tlocation /hbnb_static/ {\n\t\talias /data/web_static/current/;\n\t}\n' /etc/nginx/sites-available/default",
+  	path    => ['/usr/bin', '/bin'],
+	returns => [0,1]
+}
+
+exec { 'exec_6':
+    require => Exec['exec_5'],
 	command => 'service nginx restart',
   	path    => ['/usr/bin', '/bin'],
 	returns => [0,1]
