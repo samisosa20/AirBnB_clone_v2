@@ -23,14 +23,17 @@ def do_pack():
         command = "tar -cvzf " + "./versions/" + file_name + " ./web_static"
         local(command)
         return "versions/" + file_name
-    except:
+    except Exception:
         return None
 
+
 def do_deploy(archive_path):
-    """Write a Fabric script that generates a .tgz archive from the contents 
-    of the web_static folder of your AirBnB Clone repo, using the function do_pack.
+    """Write a Fabric script that generates a .tgz archive
+    from the contents of the web_static folder of your
+    AirBnB Clone repo, using the function do_pack.
     Args:
-        archive_path (string): archive from the contents of the web_static
+        archive_path (string): archive from the contents
+        of the web_static
 
     Returns:
         bool: false or true
@@ -52,7 +55,7 @@ def do_deploy(archive_path):
         run("rm -rf /tmp/{}".format(archive_wo_ver))
         run("mv /data/web_static/releases/{}/web_static/*\
         /data/web_static/releases/{}/".format(archive_wo_ext_ver,
-                                                archive_wo_ext_ver))
+            archive_wo_ext_ver))
         run("rm -rf /data/web_static/releases/{}/web_static".
             format(archive_wo_ext_ver))
         run("rm -rf /data/web_static/current")
@@ -60,5 +63,5 @@ def do_deploy(archive_path):
             format(archive_wo_ext_ver))
         print("New version deployed!")
         return True
-    except:
+    except Exception:
         return False
