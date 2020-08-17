@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-from fabric.api import local
+from fabric.api import local, put, run, env
 from datetime import datetime
 import os
 
