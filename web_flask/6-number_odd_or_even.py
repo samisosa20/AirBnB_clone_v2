@@ -7,7 +7,7 @@ from flask import Flask, render_template
 app = Flask(__name__)
 
 
-@app.route('/', strict_slashes=False)
+app.route('/', strict_slashes=False)
 def index():
     """returns Hello HBNB!"""
     return 'Hello HBNB!'
@@ -27,28 +27,32 @@ def cisfun(text):
 
 @app.route('/python', strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
-def python(text='is cool'):
-    """display “python ” followed by the value of the text variable"""
-    return 'python ' + text.replace('_', ' ')
+def pythoniscool(text='is cool'):
+    """display “Python ”, followed by the value of the text variable"""
+    return 'Python ' + text.replace('_', ' ')
 
 
 @app.route('/number/<int:n>', strict_slashes=False)
-def isanumber(n):
-    """display only if n is a number"""
+def imanumber(n):
+    """display “n is a number” only if n is an integer"""
     return "{:d} is a number".format(n)
 
 
 @app.route('/number_template/<int:n>', strict_slashes=False)
-def numbersend(n):
+def numbersandtemplates(n):
     """display a HTML page only if n is an integer"""
     return render_template('5-number.html', n=n)
 
 
 @app.route('/number_odd_or_even/<int:n>', strict_slashes=False)
-def iseven(n):
+def numbersandevenness(n):
     """display a HTML page only if n is an integer"""
-    even = "even" if n % 2 == 0 else "odd"
-    return render_template('6-number_odd_or_even.html', n=n, even=even)
+    if n % 2 == 0:
+        even = 'even'
+    else:
+        even = 'odd'
+    return render_template('6-number_odd_or_even.html', n=n,
+                           even=even)
 
 
 if __name__ == '__main__':
