@@ -7,7 +7,7 @@ from flask import Flask, render_template
 app = Flask(__name__)
 
 
-app.route('/', strict_slashes=False)
+@app.route('/', strict_slashes=False)
 def index():
     """returns Hello HBNB!"""
     return 'Hello HBNB!'
@@ -47,12 +47,7 @@ def numbersandtemplates(n):
 @app.route('/number_odd_or_even/<int:n>', strict_slashes=False)
 def numbersandevenness(n):
     """display a HTML page only if n is an integer"""
-    if n % 2 == 0:
-        even = 'even'
-    else:
-        even = 'odd'
-    return render_template('6-number_odd_or_even.html', n=n,
-                           even=even)
+    return render_template('6-number_odd_or_even.html', n=n)
 
 
 if __name__ == '__main__':
