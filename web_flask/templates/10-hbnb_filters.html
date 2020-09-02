@@ -3,7 +3,6 @@
   <HEAD>
     <META charset="utf-8">
     <TITLE>AirBnB clone</TITLE>
-    <LINK rel="stylesheet" href="../static/styles/reset.css">
     <LINK rel="stylesheet" href="../static/styles/4-common.css">
     <LINK rel="stylesheet" href="../static/styles/3-header.css">
     <LINK rel="stylesheet" href="../static/styles/3-footer.css">
@@ -12,8 +11,9 @@
   </HEAD>
 
   <BODY>
-    <HEADER></HEADER>
-
+    <HEADER>
+      <DIV class="logo"></DIV>
+  </HEADER>
     <DIV class="container">
       <SECTION class="filters">
         <DIV class="locations">
@@ -33,21 +33,24 @@
             </UL>
           </DIV>
 
-        </DIV><DIV class="amenities">
+        </DIV>
+        <DIV class="amenities">
           <H3>Amenities</H3>
           <H4>&nbsp;</H4>
-          <UL class="popover">
-          {% for amenity in amenities.values()|sort(attribute="name") %}
-            <LI>{{ amenity.name }}</LI>
-          {% endfor %}
-          </UL>
+          <DIV class="popover">
+            <UL>
+            {% for amenity in amenities.values()|sort(attribute="name") %}
+              <LI>{{ amenity.name }}</LI>
+            {% endfor %}
+            </UL>
+        </DIV>
         </DIV>
         <BUTTON>Search</BUTTON>
       </SECTION>
     </DIV>
 
     <FOOTER>
-      Holberton School
+      <P>Holberton School</P>
     </FOOTER>
   </BODY>
 </HTML>
